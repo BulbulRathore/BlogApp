@@ -1,0 +1,39 @@
+package com.example.blogapp;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
+public class ViewPagerAdapter extends FragmentPagerAdapter {
+
+    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+        super(fm, behavior);
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        switch (position){
+            case 0:
+                //home
+                HomeFragment homeFragment = new HomeFragment();
+                return homeFragment;
+            case 1:
+                //fav
+                FavoriteFragment favoriteFragment = new FavoriteFragment();
+                return favoriteFragment;
+            case 2:
+                //account
+                AccountFragment accountFragment = new AccountFragment();
+                return accountFragment;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return 3;
+    }
+}

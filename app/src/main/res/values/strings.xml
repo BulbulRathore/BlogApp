@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">BlogApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logo_image_background">logo image background</string>
+    <string name="logo_b">B</string>
+    <string name="logo_log">log</string>
+    <string name="with_us">with us</string>
+    <string name="main_user_name">User name</string>
+    <string name="main_email">Email</string>
+    <string name="main_password">Password</string>
+    <string name="main_sign_up">Sign Up</string>
+    <string name="main_sign_in">Sign In</string>
+    <string name="main_forgot_password">Forgot Password?</string>
+    <string name="main_warning">Warning</string>
+    <string name="b_logo">B</string>
+    <string name="log_logo">log</string>
+    <string name="with_us_logo">with us</string>
+    <string name="email_sign">Email</string>
+    <string name="password_sign">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="don_t_have_an_account">don\'t have an account?</string>
+    <string name="warning">Warning</string>
+    <string name="acc_name">Name</string>
+    <string name="user_image_with_name">user image with name</string>
+    <string name="user_name">User name</string>
+    <string name="edit_user_name">edit user name</string>
+    <string name="change_user_name">user name</string>
+    <string name="about">About</string>
+    <string name="about_info">about info</string>
+    <string name="hey_i_am_new_on_this_blog_app">Hey! I am new on this blog app!!</string>
+    <string name="change_the_about">change the about</string>
+    <string name="about_edt">about</string>
+    <string name="log_out">Log Out</string>
+</resources>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/single_pro_img"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/single_pro_img">
+
+        <ImageView
+            android:id="@+id/single_post_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/single_post_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|end"
+            android:padding="10dp"
+            android:text="date" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/single_post_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="title"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <TextView
+        android:id="@+id/single_post_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/raleway"
+        android:text="Description"
+        android:textColor="#A2A2A2"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/single_post_title" />
+
+    <TextView
+        android:id="@+id/single_com_user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="user name"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/single_status"
+        app:layout_constraintEnd_toEndOf="@+id/single_post_view"
+        app:layout_constraintStart_toEndOf="@+id/single_pro_img"
+        app:layout_constraintTop_toTopOf="@+id/single_pro_img" />
+
+    <TextView
+        android:id="@+id/single_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/raleway"
+        android:text="about"
+        android:textColor="#B7B7B7"
+        app:layout_constraintBottom_toBottomOf="@+id/single_pro_img"
+        app:layout_constraintEnd_toEndOf="@+id/single_post_view"
+        app:layout_constraintStart_toEndOf="@+id/single_pro_img"
+        app:layout_constraintTop_toBottomOf="@+id/single_com_user_name" />
+
+    <TextView
+        android:id="@+id/single_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Follow"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/single_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/single_com_user_name" />
+
+    <ImageView
+        android:id="@+id/like_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_baseline_favorite_24"
+        app:layout_constraintBottom_toTopOf="@+id/divider3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/single_post_desc" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/like_image"
+        app:layout_constraintStart_toEndOf="@+id/like_image"
+        app:layout_constraintTop_toTopOf="@+id/like_image"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_baseline_share_24" />
+
+    <ImageView
+        android:id="@+id/commentImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/single_post_desc"
+        app:srcCompat="@drawable/ic_baseline_comment_24" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/single_post_desc" />
+
+    <TextView
+        android:id="@+id/like_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/like_image"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/like_image"
+        app:layout_constraintTop_toTopOf="@+id/like_image" />
+
+    <TextView
+        android:id="@+id/commentNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="0"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/commentImage"
+        app:layout_constraintEnd_toStartOf="@+id/commentImage"
+        app:layout_constraintTop_toTopOf="@+id/commentImage" />
+
+    <View
+        android:id="@+id/single_post_view"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/single_pro_img"
+        app:layout_constraintEnd_toStartOf="@+id/single_follow"
+        app:layout_constraintStart_toEndOf="@+id/single_pro_img"
+        app:layout_constraintTop_toTopOf="@+id/single_pro_img" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
