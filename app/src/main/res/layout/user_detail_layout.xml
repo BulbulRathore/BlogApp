@@ -23,25 +23,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="15dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway_semibold"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="About"
                 android:textColor="#CCCCCC"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/user_detail_about"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="about description"
                 android:textColor="#959595" />
 
@@ -66,25 +67,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="15dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway_semibold"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="Followers"
                 android:textColor="#CCCCCC"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/user_detail_followers"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="number of followers"
                 android:textColor="#959595" />
 
@@ -100,6 +102,7 @@
         android:layout_marginEnd="16dp"
         android:padding="8dp"
         app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardCornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView5">
@@ -107,25 +110,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="15dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway_semibold"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="Following"
                 android:textColor="#CCCCCC"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/user_detail_following"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="number of following"
                 android:textColor="#959595" />
 
@@ -141,6 +145,7 @@
         android:layout_marginEnd="16dp"
         android:padding="8dp"
         app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardCornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView6">
@@ -148,25 +153,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="15dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway_semibold"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="Posts"
                 android:textColor="#CCCCCC"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/user_details_posts"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/raleway"
-                android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:text="number of posts"
                 android:textColor="#959595" />
 
@@ -174,7 +180,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/user_detail_follow_btn"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -188,16 +194,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/user_detail_request_btn"
         app:strokeColor="@color/colorAccent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/user_detail_request_btn"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="140dp"
         android:layout_marginEnd="24dp"
         android:padding="15dp"
         android:text="Request"
