@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -79,8 +80,6 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
             requestBtn.setEnabled(false);
         }
 
-
-
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRef.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -106,6 +105,25 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
         setFollowing();
         setPosts();
 
+        mDatabaseRef.child("Requests").child(currentUser.getUid()).child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild("request")){
+                    String requestType = snapshot.child("request").getValue(String.class);
+                    if (requestType.equals("sent")){
+                        requestBtn.setText("Cancel Request");
+                    } else if (requestType.equals("receive")){
+                        requestBtn.setText("Accept Request");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         mDatabaseRef.child("following").child(currentUser.getUid()).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -124,10 +142,20 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-    }
 
-    private void unFollowTheUser() {
+        mDatabaseRef.child("Friends").child(currentUser.getUid()).child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild("friend")){
+                    requestBtn.setText("Message");
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -135,6 +163,19 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
 
         switch (view.getId()){
             case R.id.user_detail_request_btn:
+                if (requestBtn.getText().equals("Cancel Request")){
+                    Log.i("cancel","cancel request");
+                    cancelRequest();
+                } else if (requestBtn.getText().equals("Accept Request")){
+                    Log.i("accept","accept request");
+                    acceptRequest();
+                } else if (requestBtn.getText().equals("Message")){
+                    //Move to next activity to make a chat with the user
+                    Intent intent = new Intent(PostUserDetail.this,MessageActivity.class);
+                    startActivity(intent);
+                }else {
+                    MakeRequest();
+                }
                 break;
             case R.id.user_detail_follow_btn:
                 if (followBtn.getText().equals("unFollow")){
@@ -145,6 +186,54 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
         }
+    }
+
+    private void acceptRequest() {
+        cancelRequest();
+        mDatabaseRef.child("Friends").child(currentUser.getUid()).child(userId).child("friend").setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mDatabaseRef.child("Friends").child(userId).child(currentUser.getUid()).child("friend").setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        requestBtn.setText("Message");
+                    }
+                });
+            }
+        });
+    }
+
+    private void cancelRequest() {
+
+        mDatabaseRef.child("Requests").child(currentUser.getUid()).child(userId).child("request").removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                mDatabaseRef.child("Requests").child(userId).child(currentUser.getUid()).child("request").removeValue();
+                requestBtn.setText("Request");
+            }
+        });
+    }
+
+    private void MakeRequest() {
+        mDatabaseRef.child("Requests").child(currentUser.getUid()).child(userId).child("request").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if (task.isSuccessful()){
+                    Log.i("Request","Request is sent successfully");
+                    requestBtn.setText("Cancel Request");
+
+                    mDatabaseRef.child("Requests").child(userId).child(currentUser.getUid()).child("request").setValue("receive").addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Log.i("Request","Request is received is added to database");
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void doUnFollow() {
