@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -233,6 +234,54 @@ public class HomeFragment extends Fragment {
                         Intent intent = new Intent(getContext(),PostUserDetail.class);
                         intent.putExtra("userId",model.getUser_id());
                         startActivity(intent);
+                    }
+                });
+
+                holder.followTxt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (holder.followTxt.getText().equals("Following")){
+
+                            holder.followTxt.setEnabled(false);
+
+                        } else{
+                            mDatabaseRef.child("following").child(currentUser.getUid()).child(model.getUser_id()).child("following").setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        Log.i("following","following is successful");
+
+                                        mDatabaseRef.child("follower").child(model.getUser_id()).child(currentUser.getUid()).child("follower").setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    Log.i("follower","follower is successful");
+                                                    holder.followTxt.setText("Following");
+                                                    Toast.makeText(getContext(), "You are following this user!!", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+
+                    }
+                });
+
+                mDatabaseRef.child("following").child(currentUser.getUid()).child(model.getUser_id()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.hasChild("following")){
+                            holder.followTxt.setText("Following");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
             }
