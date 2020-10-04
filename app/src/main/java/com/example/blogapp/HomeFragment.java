@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -220,11 +221,14 @@ public class HomeFragment extends Fragment {
                 holder.postImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(),PostDetailsActivity.class);
-                        intent.putExtra("BlogId",model.getBlog_id());
-                        intent.putExtra("Fragment","Home");
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.slide_left,R.anim.no_anim);
+
+
+                            Intent intent = new Intent(getContext(),PostDetailsActivity.class);
+                            intent.putExtra("BlogId",model.getBlog_id());
+                            intent.putExtra("Fragment","Home");
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.slide_left,R.anim.no_anim);
+
                     }
                 });
 
@@ -284,6 +288,7 @@ public class HomeFragment extends Fragment {
 
                     }
                 });
+
             }
 
             @NonNull

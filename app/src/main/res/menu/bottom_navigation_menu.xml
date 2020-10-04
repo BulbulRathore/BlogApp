@@ -11,9 +11,19 @@
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="Favorite" />
+
+    <item android:title="Add"
+        android:id="@+id/add_post"
+        android:icon="@drawable/ic_baseline_add_circle_24"
+        android:enabled="true"/>
     <item
         android:id="@+id/account"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="Account" />
+
+    <item android:id="@+id/chats"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:title="Chat"/>
 </menu>

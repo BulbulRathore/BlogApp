@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".MessageActivity" android:parentActivityName=".PostUserDetail"/>
         <activity
             android:name=".PostUserDetail"
             android:parentActivityName=".BlogActivity" />

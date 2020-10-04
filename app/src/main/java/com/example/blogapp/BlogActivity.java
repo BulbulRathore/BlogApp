@@ -20,7 +20,6 @@ public class BlogActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
-    private FloatingActionButton addBlog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +30,8 @@ public class BlogActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager(),0);
         viewPager.setAdapter(adapter);
-        addBlog = findViewById(R.id.add_blog_btn);
 
-        addBlog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BlogActivity.this,MakePost.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_left,R.anim.no_anim);
-            }
-        });
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -54,8 +45,14 @@ public class BlogActivity extends AppCompatActivity {
                     case R.id.favorite:
                         viewPager.setCurrentItem(1);
                         return true;
-                    case R.id.account:
+                    case R.id.add_post:
                         viewPager.setCurrentItem(2);
+                        return true;
+                    case R.id.account:
+                        viewPager.setCurrentItem(3);
+                        return true;
+                    case R.id.chats:
+                        viewPager.setCurrentItem(4);
                         return true;
 
                     default:
@@ -80,9 +77,14 @@ public class BlogActivity extends AppCompatActivity {
                         bottomNavigationView.getMenu().findItem(R.id.favorite).setChecked(true);
                         break;
                     case 2:
+                        bottomNavigationView.getMenu().findItem(R.id.add_post).setChecked(true);
+                        break;
+                    case 3:
                         bottomNavigationView.getMenu().findItem(R.id.account).setChecked(true);
                         break;
-
+                    case 4:
+                        bottomNavigationView.getMenu().findItem(R.id.chats).setChecked(true);
+                        break;
                 }
             }
 

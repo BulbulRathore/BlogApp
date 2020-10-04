@@ -4,16 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -24,15 +30,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostUserDetail extends AppCompatActivity implements View.OnClickListener{
 
     private String userId;
-    private ImageView collapseImg;
-    private MaterialToolbar toolbar;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private CircleImageView userImage;
+    private TextView userName;
 
     private TextView about;
     private TextView followers;
@@ -41,6 +49,8 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
 
     private Button followBtn;
     private Button requestBtn;
+
+    private RecyclerView recyclerView;
 
     //firebase
     private DatabaseReference mDatabaseRef;
@@ -52,22 +62,22 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_post_user_detail);
 
         userId = getIntent().getStringExtra("userId");
-        collapseImg = findViewById(R.id.collapseImage);
-        toolbar = findViewById(R.id.material_app_bar);
-        collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
+
 
         about = findViewById(R.id.user_detail_about);
         followers = findViewById(R.id.user_detail_followers);
         followings = findViewById(R.id.user_detail_following);
         posts = findViewById(R.id.user_details_posts);
+        userImage = findViewById(R.id.user_detail_image);
+        userName = findViewById(R.id.user_detail_name);
 
         followBtn = findViewById(R.id.user_detail_follow_btn);
         requestBtn = findViewById(R.id.user_detail_request_btn);
 
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        recyclerView = findViewById(R.id.user_detail_recycler_view);
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        setPostImages();
 
         //firebase
 
@@ -80,15 +90,14 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
             requestBtn.setEnabled(false);
         }
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRef.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.i("userName",snapshot.getValue(User.class).getName()+"");
                 User user = snapshot.getValue(User.class);
-                Picasso.get().load(user.getThumb_image()).into(collapseImg);
-                collapsingToolbarLayout.setTitle(user.getName());
 
+                Picasso.get().load(user.getThumb_image()).into(userImage);
+                userName.setText(user.getName());
                 about.setText(user.getStatus());
             }
 
@@ -172,6 +181,7 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
                 } else if (requestBtn.getText().equals("Message")){
                     //Move to next activity to make a chat with the user
                     Intent intent = new Intent(PostUserDetail.this,MessageActivity.class);
+                    intent.putExtra("userId",userId);
                     startActivity(intent);
                 }else {
                     MakeRequest();
@@ -282,9 +292,9 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
                 Log.i("follower",snapshot.getChildrenCount()+"");
                 long follower = snapshot.getChildrenCount();
                 if (follower != 0){
-                    followers.setText("number : "+follower+"");
+                    followers.setText(follower+"");
                 } else{
-                    followers.setText("number : "+0+"");
+                    followers.setText(0+"");
                 }
             }
 
@@ -303,9 +313,9 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
                 Log.i("following",snapshot.getChildrenCount()+"");
                 long following = snapshot.getChildrenCount();
                 if (following != 0){
-                    followings.setText("number : "+following+"");
+                    followings.setText(following+"");
                 } else {
-                    followings.setText("number : "+0+"");
+                    followings.setText(0+"");
                 }
             }
 
@@ -321,7 +331,7 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long postNum = snapshot.getChildrenCount();
-                posts.setText("number : "+postNum+"");
+                posts.setText(postNum+"");
             }
 
             @Override
@@ -329,5 +339,38 @@ public class PostUserDetail extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+    }
+
+    private void setPostImages(){
+        Query query = mDatabaseRef.child("user_blog").child(userId);
+        FirebaseRecyclerOptions<PostModel> options = new FirebaseRecyclerOptions.Builder<PostModel>().setQuery(query,PostModel.class).build();
+        FirebaseRecyclerAdapter<PostModel,UserDetailPosts> adapter = new FirebaseRecyclerAdapter<PostModel, UserDetailPosts>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull UserDetailPosts holder, int position, @NonNull PostModel model) {
+                    Picasso.get().load(model.getPost_image()).into(holder.imageView);
+            }
+
+            @NonNull
+            @Override
+            public UserDetailPosts onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_image_layout,parent,false);
+                return new UserDetailPosts(view);
+            }
+        };
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
+    }
+
+
+    public static class UserDetailPosts extends RecyclerView.ViewHolder{
+
+        private ImageView imageView;
+
+        public UserDetailPosts(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.single_post_layout_image);
+        }
     }
 }

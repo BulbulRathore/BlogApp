@@ -25,8 +25,18 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 return favoriteFragment;
             case 2:
                 //account
+                AddPostFragment addPostFragment = new AddPostFragment();
+                return addPostFragment;
+
+            case 3:
+                //account
                 AccountFragment accountFragment = new AccountFragment();
                 return accountFragment;
+
+            case 4:
+                ChatFragment chatFragment = new ChatFragment();
+                return chatFragment;
+
             default:
                 return null;
         }
@@ -34,6 +44,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 5;
     }
 }

@@ -1,23 +1,25 @@
 package com.example.blogapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -33,10 +35,9 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-public class MakePost extends AppCompatActivity implements View.OnClickListener {
+public class AddPostFragment extends Fragment implements View.OnClickListener{
 
     private CardView imageCard;
     private TextInputLayout postInputTitle,postInputDesc;
@@ -51,19 +52,28 @@ public class MakePost extends AppCompatActivity implements View.OnClickListener 
     private String userId;
     private String uniqueName;
 
-    private Dialog mDialog;
+    private ProgressDialog mDialog;
+
+    public AddPostFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_post);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_add_post, container, false);
+    }
 
-        //element id's
-        imageCard = findViewById(R.id.post_card_view);
-        postInputTitle = findViewById(R.id.post_input_title);
-        postInputDesc = findViewById(R.id.post_input_desc);
-        postBtn = findViewById(R.id.post_btn);
-        postImageView = findViewById(R.id.post_img_view);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        imageCard = view.findViewById(R.id.post_card_view);
+        postInputTitle = view.findViewById(R.id.post_input_title);
+        postInputDesc = view.findViewById(R.id.post_input_desc);
+        postBtn = view.findViewById(R.id.post_btn);
+        postImageView = view.findViewById(R.id.post_img_view);
 
         //onclickListener
         imageCard.setOnClickListener(this);
@@ -76,7 +86,7 @@ public class MakePost extends AppCompatActivity implements View.OnClickListener 
 
         userId = currentUser.getUid();
         uniqueName = UUID.randomUUID().toString();
-        mDialog = new ProgressDialog(this);
+        mDialog = new ProgressDialog(getContext());
     }
 
     @Override
@@ -88,7 +98,7 @@ public class MakePost extends AppCompatActivity implements View.OnClickListener 
                 break;
 
             case R.id.post_btn:
-               addDataToDatabase();
+                addDataToDatabase();
                 break;
         }
     }
@@ -118,7 +128,7 @@ public class MakePost extends AppCompatActivity implements View.OnClickListener 
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
 
-                            Toast.makeText(MakePost.this, "Data is added to database", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Data is added to database", Toast.LENGTH_SHORT).show();
 
                             HashMap<String, Object> allBlog = new HashMap<>();
                             allBlog.put("user_id",userId);
@@ -131,7 +141,7 @@ public class MakePost extends AppCompatActivity implements View.OnClickListener 
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(MakePost.this, "All blogs are added here", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "All blogs are added here", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -167,10 +177,10 @@ public class MakePost extends AppCompatActivity implements View.OnClickListener 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1 && resultCode == RESULT_OK){
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK){
             assert data != null;
             final Uri uri = data.getData();
             final StorageReference imageRef = mStorageRef.child("post_images").child(uniqueName+".jpg");
